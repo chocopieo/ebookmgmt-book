@@ -15,7 +15,7 @@ public class PolicyHandler{
     @Autowired BookRepository bookRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverPaid_ApproveRequest(@Payload Paid paid){
+    public void wheneverPaid_ApproveRequest(@Payload Paid paid) {
 
         if(!paid.validate()) return;
 
@@ -38,7 +38,7 @@ public class PolicyHandler{
     }
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverReturned_ReturnRequest(@Payload Returned returned){
+    public void wheneverReturned_ReturnRequest(@Payload Returned returned) {
 
         if(!returned.validate()) return;
 
@@ -47,7 +47,7 @@ public class PolicyHandler{
         Long rentId = returned.getId();
         String status = returned.getStatus();
 
-        if("RETURN_REQUEST".equals(status)) {
+        if("RETURNED".equals(status)) {
             Book book = bookRepository.findByRentId(rentId).get();
             book.setRentId(null);
             book.setUserId(null);
@@ -57,7 +57,6 @@ public class PolicyHandler{
             bookRepository.save(book);
         }
     }
-
 
     @StreamListener(KafkaProcessor.INPUT)
     public void whatever(@Payload String eventString){}

@@ -38,25 +38,12 @@ public class Book {
         }
     }
 
-    @PreUpdate
-    public void onPreUpdate() {
-        // 상태가 대여승인인 경우만 처리
-        if("APPROVED".equals(this.status) ) {
-            this.approvedDate = new Date();
-        }
-    }
-
     @PostUpdate
     public void onPostUpdate() {
-        // 상태가 대여승인, 대여거절, 반납인 경우만 처리
         if("APPROVED".equals(this.status) ) {
             Approved approved = new Approved();
             BeanUtils.copyProperties(this, approved);
             approved.publishAfterCommit();
-        } else if("REJECTED".equals(this.status)) {
-            Rejected rejected = new Rejected();
-            BeanUtils.copyProperties(this, rejected);
-            rejected.publishAfterCommit();
         }
     }
 
