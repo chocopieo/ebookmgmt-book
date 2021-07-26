@@ -94,7 +94,6 @@ phases:
                     periodSeconds: 5
                     failureThreshold: 5
         EOF
-
 cache:
   paths:
     - '/root/.m2/**/*'
