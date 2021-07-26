@@ -4,7 +4,6 @@ env:
   variables:
     _PROJECT_NAME: "user18-ebookmgmt-book"
 
-
 phases:
   install:
     runtime-versions:
